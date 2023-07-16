@@ -13,8 +13,12 @@ export default async function handler(request, response) {
         .collection("userinfo")
         .findOne({ id: request.body.id });
       if (result === null) {
-        await db.collection("userinfo").insertOne(request.body);
-        response.redirect(302, "/list");
+        try {
+          await db.collection("userinfo").insertOne(request.body);
+          response.redirect(302, "/list");
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         response.status(500).json({
           message: "중복된 아이디 있음",
