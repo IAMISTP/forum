@@ -17,7 +17,7 @@ export default function ListItem({ result }) {
             <p>{result[i].content}</p>
             <Link href={`/edit/${result[i]._id}`}>✏️</Link>
             <span
-              onClick={() => {
+              onClick={(e) => {
                 fetch("api/post/delete", {
                   method: "DELETE",
                   body: result[i]._id,
@@ -27,7 +27,10 @@ export default function ListItem({ result }) {
                   })
                   .then((r) => {
                     console.log(r);
-                    router.refresh();
+                    e.target.parentElement.style.opacity = 0;
+                    setTimeout(() => {
+                      e.target.parentElement.style.display = "none";
+                    }, 1000);
                   });
               }}
             >
